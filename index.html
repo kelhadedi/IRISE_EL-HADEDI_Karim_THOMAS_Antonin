@@ -2,29 +2,27 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Océan Dynamique - Test Météo</title>
-    <style>
-        body { margin: 0; overflow: hidden; font-family: sans-serif; }
-        #info-ui {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: white;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 15px;
-            border-radius: 8px;
-            z-index: 100;
-        }
-        button { cursor: pointer; padding: 5px 10px; margin-top: 10px; }
-    </style>
+    <title>Skyhues - Rain Edition</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="overlay">
+        <header>
+            <h1 id="desc-display">--</h1>
+            <div id="location">STATION MÉTÉO AVANCÉE</div>
+        </header>
 
-    <div id="info-ui">
-        <h1 id="temp-display">--°C</h1>
-        <p id="desc-display">Chargement du JSON...</p>
-        <button onclick="updateFromTest(5)">Simuler Froid (5°C)</button>
-        <button onclick="updateFromTest(35)">Simuler Chaud (35°C)</button>
+        <main>
+            <div id="temp-display">--°</div>
+        </main>
+
+        <footer>
+            <div class="controls">
+                <button onclick="updateFromTest(5, 'froid')">FROID</button>
+                <button onclick="updateFromTest(15, 'pluie')">PLUIE</button>
+                <button onclick="updateFromTest(35, 'chaud')">CHAUD</button>
+            </div>
+        </footer>
     </div>
 
     <script type="importmap">

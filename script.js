@@ -1,84 +1,69 @@
 import * as THREE from 'three';
 import { Water } from 'three/addons/objects/Water.js';
-import { Sky } from 'three/addons/objects/Sky.js';
 
-let container, camera, scene, renderer, water, sun, mesh;
+let scene, camera, renderer, water, rain, rainGeo;
+let rainCount = 10000; // Nombre de gouttes
+let isRaining = false;
 
 init();
 animate();
 
 async function init() {
-    // 1. Scène et Caméra
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 20000);
     camera.position.set(0, 500, 0);
     camera.lookAt(0, 0, 0);
 
-    // 2. Rendu
     renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     document.body.appendChild(renderer.domElement);
 
-    // 3. L'Eau (Géométrie et Matériau spécial Water)
+    // 1. L'EAU
     const waterGeometry = new THREE.PlaneGeometry(10000, 10000);
-    sun = new THREE.Vector3();
-
     water = new Water(waterGeometry, {
-        textureWidth: 512,
-        textureHeight: 512,
-        waterNormals: new THREE.TextureLoader().load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/waternormals.jpg', function (texture) {
-            texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+        textureWidth: 512, textureHeight: 512,
+        waterNormals: new THREE.TextureLoader().load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/waternormals.jpg', (t) => {
+            t.wrapS = t.wrapT = THREE.RepeatWrapping;
         }),
-        sunDirection: new THREE.Vector3(),
-        sunColor: 0xffffff,
-        waterColor: 0x001e0f,
-        distortionScale: 3.7,
-        fog: scene.fog !== undefined
+        sunDirection: new THREE.Vector3(), sunColor: 0xffffff, waterColor: 0x001e0f, distortionScale: 3.7
     });
-
     water.rotation.x = -Math.PI / 2;
     scene.add(water);
 
-    // 4. Le Ciel
-    const sky = new Sky();
-    sky.scale.setScalar(10000);
-    scene.add(sky);
+    // 2. LE SYSTÈME DE PLUIE (Particules)
+    rainGeo = new THREE.BufferGeometry();
+    const positions = new Float32Array(rainCount * 3);
+    for (let i = 0; i < rainCount * 3; i += 3) {
+        positions[i] = Math.random() * 800 - 400;     // X
+        positions[i + 1] = Math.random() * 500;       // Y (Hauteur)
+        positions[i + 2] = Math.random() * 800 - 400; // Z
+    }
+    rainGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    
+    const rainMaterial = new THREE.PointsMaterial({
+        color: 0xaaaaaa, size: 0.7, transparent: true, opacity: 0.5
+    });
+    rain = new THREE.Points(rainGeo, rainMaterial);
+    scene.add(rain);
+    rain.visible = false; // Désactivé par défaut
 
-    const skyUniforms = sky.material.uniforms;
-    skyUniforms['turbidity'].value = 10;
-    skyUniforms['rayleigh'].value = 2;
-    skyUniforms['mieCoefficient'].value = 0.005;
-    skyUniforms['mieDirectionalG'].value = 0.8;
-
-    // 5. Paramètres du Soleil
-    const parameters = { elevation: 2, azimuth: 180 };
-    const pmremGenerator = new THREE.PMREMGenerator(renderer);
-
-    window.updateSun = function(temp) {
-        // Plus il fait chaud, plus le soleil descend (effet rouge/orange)
-        // Ratio 0 (froid) à 1 (chaud)
+    // 3. MISE À JOUR VISUELLE
+    window.updateVisuals = function(temp, mode = '') {
         let ratio = Math.max(0, Math.min(1, (temp - 0) / 40));
         
-        parameters.elevation = 2 - (ratio * 5); // Le soleil descend pour rougir l'eau
-        
-        const phi = THREE.MathUtils.degToRad(90 - parameters.elevation);
-        const theta = THREE.MathUtils.degToRad(parameters.azimuth);
-        sun.setFromSphericalCoords(1, phi, theta);
-        
-        sky.material.uniforms['sunPosition'].value.copy(sun);
-        water.material.uniforms['sunDirection'].value.copy(sun).normalize();
-        
-        // Couleur de l'eau : plus bleue si froid, plus sombre/rouge si chaud
-        const colorFroid = new THREE.Color(0x0044ff);
-        const colorChaud = new THREE.Color(0xff4400);
-        water.material.uniforms['waterColor'].value.lerpColors(colorFroid, colorChaud, ratio);
+        // Couleurs
+        const colorCold = new THREE.Color(0x0044ff);
+        const colorHot = new THREE.Color(0xff4400);
+        water.material.uniforms['waterColor'].value.lerpColors(colorCold, colorHot, ratio);
 
-        scene.environment = pmremGenerator.fromScene(sky).texture;
+        // Activation Pluie
+        isRaining = (mode === 'pluie' || temp < 16); // Pluie si test ou froid
+        rain.visible = isRaining;
+        
+        document.getElementById('temp-display').innerText = `${temp}°`;
     };
 
-    // Chargement du JSON Initial
     loadMeteo();
 }
 
@@ -86,38 +71,32 @@ async function loadMeteo() {
     try {
         const response = await fetch('meteo.json');
         const data = await response.json();
-        // On récupère la température du test précédent
-        const temp = data.history["2025-08-01"]["14:00"].temperature.current;
-        const desc = data.history["2025-08-01"]["14:00"].weather.description;
-        
-        document.getElementById('temp-display').innerText = `${temp}°C`;
-        document.getElementById('desc-display').innerText = desc;
-        window.updateSun(temp);
-    } catch (e) {
-        window.updateSun(18); // Par défaut
-    }
+        // Accès aux données du dataset fourni
+        const entry = data.history["2025-08-01"]["10:00"]; // Exemple d'entrée
+        const temp = entry.temperature.current;
+        document.getElementById('desc-display').innerText = entry.weather.description.toUpperCase();
+        window.updateVisuals(temp);
+    } catch (e) { window.updateVisuals(18); }
 }
 
-// Fonction pour les boutons de test
-window.updateFromTest = function(temp) {
-    document.getElementById('temp-display').innerText = `${temp}°C`;
-    document.getElementById('desc-display').innerText = "Simulation";
-    window.updateSun(temp);
+window.updateFromTest = (t, m) => {
+    document.getElementById('desc-display').innerText = m.toUpperCase();
+    window.updateVisuals(t, m);
 };
 
 function animate() {
     requestAnimationFrame(animate);
-    render();
-}
+    
+    // Animation de la pluie
+    if (isRaining) {
+        const positions = rainGeo.attributes.position.array;
+        for (let i = 1; i < positions.length; i += 3) {
+            positions[i] -= 3; // Vitesse de chute
+            if (positions[i] < 0) positions[i] = 500; // Reset en haut
+        }
+        rainGeo.attributes.position.needsUpdate = true;
+    }
 
-function render() {
-    water.material.uniforms['time'].value += 1.0 / 60.0; // Animation des vagues
+    water.material.uniforms['time'].value += 1.0 / 60.0;
     renderer.render(scene, camera);
 }
-
-// Gérer le redimensionnement
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
