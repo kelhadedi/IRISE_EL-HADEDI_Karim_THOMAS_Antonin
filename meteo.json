@@ -1,0 +1,107 @@
+{
+    "history": {
+        "2025-07-31": {
+            "22:00": {
+                "timestamp": 1753999200,
+                "datetime": "01/08/2025 00:00:00",
+                "temperature": {
+                    "current": 16.6,
+                    "feels_like": 16.9,
+                    "min": 16,
+                    "max": 16.6
+                },
+                "weather": {
+                    "main": "Clouds",
+                    "description": "partiellement nuageux",
+                    "icon": "03n"
+                },
+                "atmosphere": {
+                    "humidity": 98,
+                    "pressure": 1019,
+                    "visibility": 10,
+                    "clouds": 38
+                },
+                "wind": {
+                    "speed": 2.9,
+                    "direction_degrees": 277,
+                    "direction_text": "O",
+                    "gust": 7.8
+                },
+                "sun": {
+                    "sunrise": "07:00",
+                    "sunset": "16:00"
+                }
+            }
+        },
+        "2025-08-01": {
+            "02:00": {
+                "timestamp": 1754013600,
+                "datetime": "01/08/2025 04:00:00",
+                "temperature": { "current": 16.6 },
+                "weather": { "description": "nuageux" }
+            },
+            "06:00": {
+                "timestamp": 1754028000,
+                "datetime": "01/08/2025 08:00:00",
+                "temperature": { "current": 16.3 },
+                "weather": { "description": "partiellement nuageux" }
+            },
+            "10:00": {
+                "timestamp": 1754042400,
+                "datetime": "01/08/2025 12:00:00",
+                "temperature": { "current": 19.3 },
+                "weather": { "description": "nuageux" }
+            },
+            "14:00": {
+                "timestamp": 1754056800,
+                "datetime": "01/08/2025 16:00:00",
+                "temperature": { "current": 18.7 },
+                "weather": { "description": "nuageux" }
+            },
+            "18:00": {
+                "timestamp": 1754071200,
+                "datetime": "01/08/2025 20:00:00",
+                "temperature": { "current": 16.9 },
+                "weather": { "description": "ciel dégagé" }
+            },
+            "22:00": {
+                "timestamp": 1754085600,
+                "datetime": "02/08/2025 00:00:00",
+                "temperature": { "current": 14.3 },
+                "weather": { "description": "ciel dégagé" }
+            }
+        },
+        "2025-08-02": {
+            "02:00": { "temperature": { "current": 11.6 }, "weather": { "description": "partiellement nuageux" } },
+            "06:00": { "temperature": { "current": 13.9 }, "weather": { "description": "ciel dégagé" } },
+            "10:00": { "temperature": { "current": 16.7 }, "weather": { "description": "partiellement nuageux" } },
+            "14:00": { "temperature": { "current": 19.3 }, "weather": { "description": "peu nuageux" } },
+            "18:00": { "temperature": { "current": 17.3 }, "weather": { "description": "ciel dégagé" } },
+            "22:00": { "temperature": { "current": 12.7 }, "weather": { "description": "peu nuageux" } }
+        },
+        "2025-08-03": {
+            "02:00": { "temperature": { "current": 12.6 }, "weather": { "description": "couvert" } },
+            "06:00": { "temperature": { "current": 13.0 }, "weather": { "description": "couvert" } },
+            "10:00": { "temperature": { "current": 19.3 }, "weather": { "description": "couvert" } },
+            "14:00": { "temperature": { "current": 20.3 }, "weather": { "description": "nuageux" } },
+            "18:00": { "temperature": { "current": 19.5 }, "weather": { "description": "partiellement nuageux" } },
+            "22:00": { "temperature": { "current": 16.6 }, "weather": { "description": "nuageux" } }
+        },
+        "2025-08-04": {
+            "02:00": { "temperature": { "current": 16.6 }, "weather": { "description": "couvert" } },
+            "06:00": { "temperature": { "current": 15.7 }, "weather": { "description": "nuageux" } },
+            "10:00": { "temperature": { "current": 21.0 }, "weather": { "description": "nuageux" } },
+            "14:00": { "temperature": { "current": 23.6 }, "weather": { "description": "partiellement nuageux" } },
+            "18:00": { "temperature": { "current": 18.4 }, "weather": { "description": "couvert" } },
+            "22:00": { "temperature": { "current": 16.7 }, "weather": { "description": "couvert" } }
+        },
+        "2025-08-05": {
+            "02:00": { "temperature": { "current": 13.7 }, "weather": { "description": "nuageux" } },
+            "06:00": { "temperature": { "current": 15.3 }, "weather": { "description": "ciel dégagé" } },
+            "10:00": { "temperature": { "current": 17.7 }, "weather": { "description": "ciel dégagé" } },
+            "14:00": { "temperature": { "current": 19.3 }, "weather": { "description": "ciel dégagé" } },
+            "18:00": { "temperature": { "current": 17.3 }, "weather": { "description": "nuageux" } },
+            "22:00": { "temperature": { "current": 13.7 }, "weather": { "description": "nuageux" } }
+        }
+    }
+}

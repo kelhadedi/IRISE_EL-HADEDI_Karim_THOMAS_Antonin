@@ -1,0 +1,81 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#beach-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Le ciel occupe 60% de l'écran */
+#sky {
+    flex: 6;
+    background: #87CEEB; /* Couleur par défaut */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: background 2s ease; /* Transition douce pour le changement de couleur */
+}
+
+#info {
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    z-index: 10;
+}
+
+#temp-display {
+    font-size: 5rem;
+    margin: 0;
+}
+
+#sun {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    width: 80px;
+    height: 80px;
+    background: #fff9d3;
+    border-radius: 50%;
+    box-shadow: 0 0 50px white;
+}
+
+/* La mer occupe 20% */
+#sea {
+    flex: 2;
+    background: #0077be;
+    position: relative;
+}
+
+/* Le sable occupe 20% */
+#sand {
+    flex: 2;
+    background: #f2d2a9;
+}
+
+.controls {
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid white;
+    color: white;
+    border-radius: 5px;
+    margin: 0 5px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: white;
+    color: #333;
+}

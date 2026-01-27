@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Océan Dynamique - Test Météo</title>
+    <style>
+        body { margin: 0; overflow: hidden; font-family: sans-serif; }
+        #info-ui {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            z-index: 100;
+        }
+        button { cursor: pointer; padding: 5px 10px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="info-ui">
+        <h1 id="temp-display">--°C</h1>
+        <p id="desc-display">Chargement du JSON...</p>
+        <button onclick="updateFromTest(5)">Simuler Froid (5°C)</button>
+        <button onclick="updateFromTest(35)">Simuler Chaud (35°C)</button>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
