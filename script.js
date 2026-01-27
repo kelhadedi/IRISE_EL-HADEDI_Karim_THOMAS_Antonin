@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { Water } from 'three/addons/objects/Water.js';
 
 let scene, camera, renderer, water, rain, rainGeo;
-let rainCount = 10000; // Nombre de gouttes
+let rainCount = 15000; 
 let isRaining = false;
 
 init();
@@ -12,7 +12,7 @@ async function init() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 1, 20000);
     camera.position.set(0, 500, 0);
-    camera.lookAt(0, 0, 0);
+    camera.lookAt(0, 0, 700);
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -22,81 +22,105 @@ async function init() {
     // 1. L'EAU
     const waterGeometry = new THREE.PlaneGeometry(10000, 10000);
     water = new Water(waterGeometry, {
-        textureWidth: 512, textureHeight: 512,
+        textureWidth: 512,
+        textureHeight: 512,
         waterNormals: new THREE.TextureLoader().load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/waternormals.jpg', (t) => {
             t.wrapS = t.wrapT = THREE.RepeatWrapping;
         }),
-        sunDirection: new THREE.Vector3(), sunColor: 0xffffff, waterColor: 0x001e0f, distortionScale: 3.7
+        sunDirection: new THREE.Vector3(),
+        sunColor: 0xffffff,
+        waterColor: 0x001e0f,
+        distortionScale: 3.7
     });
     water.rotation.x = -Math.PI / 2;
     scene.add(water);
 
-    // 2. LE SYSTÈME DE PLUIE (Particules)
+    // 2. PLUIE
     rainGeo = new THREE.BufferGeometry();
     const positions = new Float32Array(rainCount * 3);
     for (let i = 0; i < rainCount * 3; i += 3) {
-        positions[i] = Math.random() * 800 - 400;     // X
-        positions[i + 1] = Math.random() * 500;       // Y (Hauteur)
-        positions[i + 2] = Math.random() * 800 - 400; // Z
+        positions[i] = Math.random() * 1000 - 500;
+        positions[i + 1] = Math.random() * 600; 
+        positions[i + 2] = Math.random() * 500 - 250;
     }
     rainGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    
-    const rainMaterial = new THREE.PointsMaterial({
-        color: 0xaaaaaa, size: 0.7, transparent: true, opacity: 0.5
-    });
-    rain = new THREE.Points(rainGeo, rainMaterial);
+    rain = new THREE.Points(rainGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.5, transparent: true, opacity: 0.4 }));
     scene.add(rain);
-    rain.visible = false; // Désactivé par défaut
 
-    // 3. MISE À JOUR VISUELLE
-    window.updateVisuals = function(temp, mode = '') {
-        let ratio = Math.max(0, Math.min(1, (temp - 0) / 40));
-        
-        // Couleurs
-        const colorCold = new THREE.Color(0x0044ff);
-        const colorHot = new THREE.Color(0xff4400);
-        water.material.uniforms['waterColor'].value.lerpColors(colorCold, colorHot, ratio);
-
-        // Activation Pluie
-        isRaining = (mode === 'pluie' || temp < 16); // Pluie si test ou froid
-        rain.visible = isRaining;
-        
-        document.getElementById('temp-display').innerText = `${temp}°`;
-    };
-
-    loadMeteo();
+    // 3. CHARGEMENT AUTO
+    loadMeteoAutomatique();
 }
 
-async function loadMeteo() {
+async function loadMeteoAutomatique() {
     try {
         const response = await fetch('meteo.json');
         const data = await response.json();
-        // Accès aux données du dataset fourni
-        const entry = data.history["2025-08-01"]["10:00"]; // Exemple d'entrée
-        const temp = entry.temperature.current;
-        document.getElementById('desc-display').innerText = entry.weather.description.toUpperCase();
-        window.updateVisuals(temp);
-    } catch (e) { window.updateVisuals(18); }
+
+        // --- LOGIQUE POUR TROUVER LA DERNIÈRE INFO ---
+        const dates = Object.keys(data.history).sort(); // Récupère toutes les dates
+        const derniereDate = dates[dates.length - 1]; // Prend la plus récente
+        
+        const heures = Object.keys(data.history[derniereDate]).sort(); // Récupère les heures
+        const derniereHeure = heures[heures.length - 1]; // Prend la plus récente
+        
+        const pointMeteo = data.history[derniereDate][derniereHeure];
+
+        // --- EXTRACTION ---
+        const temp = pointMeteo.temperature.current;
+        const condition = pointMeteo.weather.description;
+        const dateReelle = pointMeteo.datetime || `${derniereDate} ${derniereHeure}`;
+
+        // Mise à jour de l'affichage
+        document.getElementById('temp-display').innerText = `${Math.round(temp)}°`;
+        document.getElementById('desc-display').innerText = condition.toUpperCase();
+        document.getElementById('location').innerText = `DERNIÈRE DATA : ${dateReelle}`;
+
+        appliquerVisuels(temp, condition);
+
+    } catch (e) {
+        console.error("Erreur de lecture JSON:", e);
+        document.getElementById('desc-display').innerText = "VÉRIFIEZ LE FICHIER METEO.JSON";
+    }
 }
 
-window.updateFromTest = (t, m) => {
-    document.getElementById('desc-display').innerText = m.toUpperCase();
-    window.updateVisuals(t, m);
+function appliquerVisuels(temp, condition) {
+    // Couleur de l'eau
+    let ratio = Math.max(0, Math.min(1, (temp - 10) / 25));
+    water.material.uniforms['waterColor'].value.lerpColors(
+        new THREE.Color(0x0055ff), 
+        new THREE.Color(0xff3300), 
+        ratio
+    );
+
+    // Pluie automatique
+    const motsPluie = ["nuageux", "couvert", "pluie", "orage", "nuages", "partiellement"];
+    isRaining = motsPluie.some(mot => condition.toLowerCase().includes(mot));
+    rain.visible = isRaining;
+}
+
+// Les fonctions de test restent pour forcer le visuel si besoin
+window.updateFromTest = function(t, label) {
+    document.getElementById('temp-display').innerText = `${t}°`;
+    document.getElementById('desc-display').innerText = label.toUpperCase();
+    appliquerVisuels(t, label);
 };
 
 function animate() {
     requestAnimationFrame(animate);
-    
-    // Animation de la pluie
     if (isRaining) {
         const positions = rainGeo.attributes.position.array;
         for (let i = 1; i < positions.length; i += 3) {
-            positions[i] -= 3; // Vitesse de chute
-            if (positions[i] < 0) positions[i] = 500; // Reset en haut
+            positions[i] -= 4;
+            if (positions[i] < 0) positions[i] = 600;
         }
         rainGeo.attributes.position.needsUpdate = true;
     }
-
     water.material.uniforms['time'].value += 1.0 / 60.0;
     renderer.render(scene, camera);
 }
+
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
