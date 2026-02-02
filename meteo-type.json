@@ -1,0 +1,146 @@
+{
+    "last_update": 1770066025,
+    "last_update_formatted": "02\/02\/2026 22:00:25",
+    "current": {
+        "timestamp": 1770066025,
+        "datetime": "02\/02\/2026 22:00:25",
+        "temperature": {
+            "current": 8.3,
+            "feels_like": 5.8,
+            "min": 8.3,
+            "max": 8.3
+        },
+        "weather": {
+            "main": "Rain",
+            "description": "pluie légère",
+            "icon": "10n"
+        },
+        "atmosphere": {
+            "humidity": 94,
+            "pressure": 984,
+            "visibility": 10,
+            "clouds": 100
+        },
+        "wind": {
+            "speed": 4.3,
+            "direction_degrees": 189,
+            "direction_text": "S",
+            "gust": 9.3
+        },
+        "sun": {
+            "sunrise": "08:42",
+            "sunset": "18:12"
+        }
+    },
+    "statistics": {
+        "today_min": 2.7,
+        "today_max": 8.3,
+        "today_entries_count": 6,
+        "total_history_days": 162,
+        "oldest_entry": "2025-08-22",
+        "total_entries": 961
+    },
+    "history": {
+        "2025-08-25": {
+            "18:00": {
+                "timestamp": 1756137634,
+                "datetime": "25\/08\/2025 18:00:34",
+                "temperature": {
+                    "current": 23.3,
+                    "feels_like": 22.5,
+                    "min": 23.3,
+                    "max": 23.3
+                },
+                "weather": {
+                    "main": "Clear",
+                    "description": "ciel dégagé",
+                    "icon": "01d"
+                },
+                "atmosphere": {
+                    "humidity": 31,
+                    "pressure": 1012,
+                    "visibility": 10,
+                    "clouds": 0
+                },
+                "wind": {
+                    "speed": 4.4,
+                    "direction_degrees": 303,
+                    "direction_text": "ONO",
+                    "gust": 5.1
+                },
+                "sun": {
+                    "sunrise": "07:21",
+                    "sunset": "21:10"
+                }
+            }
+        },
+        "2026-01-01": {
+            "02:00": {
+                "timestamp": 1767229221,
+                "datetime": "01\/01\/2026 02:00:21",
+                "temperature": {
+                    "current": -0.9,
+                    "feels_like": -0.9,
+                    "min": -0.9,
+                    "max": -0.9
+                },
+                "weather": {
+                    "main": "Clouds",
+                    "description": "couvert",
+                    "icon": "04n"
+                },
+                "atmosphere": {
+                    "humidity": 90,
+                    "pressure": 1023,
+                    "visibility": 10,
+                    "clouds": 91
+                },
+                "wind": {
+                    "speed": 1.1,
+                    "direction_degrees": 135,
+                    "direction_text": "SE",
+                    "gust": 1.3
+                },
+                "sun": {
+                    "sunrise": "09:05",
+                    "sunset": "17:28"
+                }
+            }
+        },
+        "2026-01-20": {
+            "14:00": {
+                "timestamp": 1768914026,
+                "datetime": "20\/01\/2026 14:00:26",
+                "temperature": {
+                    "current": 9.3,
+                    "feels_like": 4.3,
+                    "min": 6.3,
+                    "max": 9.3
+                },
+                "weather": {
+                    "main": "Rain",
+                    "description": "heavy intensity rain",
+                    "icon": "10d"
+                },
+                "atmosphere": {
+                    "humidity": 89,
+                    "pressure": 1001,
+                    "visibility": 3.9,
+                    "clouds": 100
+                },
+                "wind": {
+                    "speed": 15.7,
+                    "direction_degrees": 174,
+                    "direction_text": "S",
+                    "gust": 26.5
+                },
+                "sun": {
+                    "sunrise": "08:56",
+                    "sunset": "17:52"
+                }
+            }
+        }
+    },
+    "status": "success",
+    "api_source": "OpenWeatherMap Current Weather API 2.5"
+}
