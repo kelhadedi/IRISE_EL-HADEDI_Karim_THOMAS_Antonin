@@ -13,14 +13,20 @@
         </header>
 
         <main>
+            <div id="poem-btn" onclick="afficherPoeme()">UN PEU DE POÉSIE</div>
             <div id="temp-display">--°</div>
+            
+            <div id="poem-box" onclick="fermerPoeme()">
+                <p id="poem-text"></p>
+                <span style="font-size: 10px; opacity: 0.5;">CLIQUEZ POUR FERMER</span>
+            </div>
         </main>
 
         <footer>
             <div class="controls">
-                <button onclick="updateFromTest(5, 'froid')">FROID</button>
-                <button onclick="updateFromTest(15, 'pluie')">PLUIE</button>
-                <button onclick="updateFromTest(35, 'chaud')">CHAUD</button>
+                <button onclick="chargerDataSpecifique('2026-01-01', '02:00')">HIVER</button>
+                <button onclick="chargerDataSpecifique('2026-01-20', '14:00')">ORAGE</button>
+                <button onclick="chargerDataSpecifique('2025-08-25', '18:00')">ÉTÉ</button>
             </div>
         </footer>
     </div>
