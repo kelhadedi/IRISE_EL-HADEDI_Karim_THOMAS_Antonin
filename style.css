@@ -103,26 +103,57 @@ footer {
 }
 .controls button:hover { opacity: 1; border-bottom: 1px solid white; }
 
-/* --- MODAL POÈME --- */
+/* --- FENÊTRE POÉTIQUE (MODAL) --- */
 #poem-box {
-    position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px);
-    display: none; flex-direction: column; align-items: center; justify-content: center;
-    z-index: 100; pointer-events: auto; cursor: pointer; padding: 40px;
-}
-#poem-text { 
-    font-size: 2.2rem; 
-    line-height: 1.5; 
-    font-weight: 300; 
-    text-align: center; 
-    max-width: 900px; 
-    white-space: pre-line; 
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(35px);
+    -webkit-backdrop-filter: blur(35px);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    pointer-events: auto;
+    cursor: pointer;
+    padding: 40px; /* Réduit un peu le padding global */
 }
 
-/* MOBILE */
-@media (max-width: 900px) {
-    #overlay { padding: 30px; }
-    #detailed-info { flex-direction: column; align-items: center; gap: 20px; text-align: center; }
-    .info-left, .info-right { text-align: center; }
-    #temp-display { font-size: 7rem; }
+#poem-text {
+    /* Taille par défaut pour DESKTOP */
+    font-size: 2.2rem; 
+    line-height: 1.4;
+    font-weight: 300;
+    text-align: center;
+    max-width: 1000px;
+    white-space: pre-line;
+    margin: 0;
+}
+
+.close-hint {
+    margin-top: 40px;
+    font-size: 9px;
+    opacity: 0.4;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+}
+
+/* --- ADAPTATION MOBILE --- */
+@media (max-width: 600px) {
+    #poem-box {
+        padding: 20px; /* Plus d'espace pour le texte sur les petits écrans */
+    }
+
+    #poem-text {
+        /* Taille adaptée pour MOBILE */
+        font-size: 1rem; 
+        line-height: 1.6; /* Plus d'espace entre les lignes pour la lisibilité */
+        max-width: 100%;
+    }
+
+    .close-hint {
+        margin-top: 20px;
+        font-size: 8px;
+    }
 }
