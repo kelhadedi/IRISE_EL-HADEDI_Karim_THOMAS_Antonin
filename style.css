@@ -90,11 +90,11 @@ footer { display: flex; flex-direction: column; gap: 40px; pointer-events: auto;
 }
 .controls button:hover { opacity: 1; border-bottom: 1px solid white; }
 
-/* --- FENÊTRE POÉTIQUE RESPONSIVE (MODAL) --- */
+/* --- FENÊTRE POÉTIQUE (MODAL) --- */
 #poem-box {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7); /* Un peu plus sombre pour la lisibilité */
     backdrop-filter: blur(35px);
     -webkit-backdrop-filter: blur(35px);
     display: none;
@@ -104,29 +104,51 @@ footer { display: flex; flex-direction: column; gap: 40px; pointer-events: auto;
     z-index: 100;
     pointer-events: auto;
     cursor: pointer;
-    padding: 10vh 10vw; /* Padding basé sur la hauteur de l'écran */
+    padding: 20px; /* Padding minimal pour laisser de la place au texte */
 }
 
 #poem-text {
-    /* Utilise clamp pour limiter la taille : mini 0.9rem, idéal 1.8vw, maxi 2rem */
-    font-size: clamp(0.9rem, 1.8vw, 2rem); 
-    line-height: 1.6;
+    /* DESKTOP : Taille confortable */
+    font-size: 2rem; 
+    line-height: 1.4;
     font-weight: 300;
     text-align: center;
-    max-width: 800px;
-    white-space: pre-line;
+    max-width: 900px;
+    width: 90%; /* S'adapte à la largeur */
+    white-space: pre-line; /* Garde les retours à la ligne du poème */
     margin: 0;
-    /* Empêche le texte de sortir si le poème est très long */
-    max-height: 70vh; 
-    overflow-y: auto;
+    overflow-wrap: break-word; /* Force la coupure des mots si nécessaire */
 }
 
 .close-hint {
     margin-top: 30px;
-    font-size: 9px;
-    opacity: 0.4;
-    letter-spacing: 0.5em;
+    font-size: 10px;
+    opacity: 0.5;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
+}
+
+/* --- LE FIX RESPONSIVE MOBILE --- */
+@media (max-width: 600px) {
+    #poem-box {
+        padding: 15px;
+        justify-content: center; /* Centre verticalement même si c'est long */
+    }
+
+    #poem-text {
+        /* On descend à une taille très lisible sur smartphone */
+        font-size: 1rem; 
+        line-height: 1.5;
+        width: 100%;
+        max-height: 75vh; /* Le poème ne doit pas dépasser 75% de la hauteur de l'écran */
+        overflow-y: auto; /* Permet de scroller à l'intérieur du poème s'il est trop long */
+        padding-right: 5px; /* Petit espace pour la barre de scroll */
+    }
+
+    .close-hint {
+        margin-top: 15px;
+        font-size: 8px;
+    }
 }
 
 /* --- AJUSTEMENTS SMARTPHONE --- */
