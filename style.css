@@ -21,7 +21,7 @@ header {
 #date-display { font-size: 11px; opacity: 0.5; text-transform: uppercase; }
 #location-title { font-size: 18px; font-weight: 400; letter-spacing: 0.4em; margin-top: 5px; }
 
-/* --- CENTRE : ALIGNEMENT VERTICAL PARFAIT --- */
+/* --- CENTRE --- */
 main {
     flex-grow: 1;
     display: flex;
@@ -31,15 +31,14 @@ main {
 
 #center-group {
     display: flex; 
-    flex-direction: column; /* Empile les éléments verticalement */
-    align-items: center;    /* Centre horizontalement le bouton et le texte */
+    flex-direction: column; 
+    align-items: center;    
     text-align: center;
 }
 
 #poem-btn {
-    /* On retire tout transform ou position absolute pour rester centré */
     position: relative; 
-    margin-bottom: 25px; /* Espace précis au-dessus du chiffre */
+    margin-bottom: 25px; 
     padding: 12px 25px;
     border: 1px solid rgba(255,255,255,0.2); 
     border-radius: 50px;
@@ -52,31 +51,19 @@ main {
     text-transform: uppercase;
 }
 
-#poem-btn:hover { 
-    background: white; 
-    color: black; 
-    letter-spacing: 0.3em; 
-}
+#poem-btn:hover { background: white; color: black; letter-spacing: 0.3em; }
 
 #temp-display { 
-    font-size: 13rem; /* Taille imposante */
+    font-size: clamp(5rem, 15vw, 13rem); 
     font-weight: 100; 
-    line-height: 0.8; /* Rapproche le chiffre du bouton */
+    line-height: 0.8; 
     margin: 0;
 }
 
-#feels-like { 
-    font-size: 11px; 
-    opacity: 0.5; 
-    text-transform: uppercase; 
-    margin-top: 15px; 
-}
+#feels-like { font-size: 11px; opacity: 0.5; text-transform: uppercase; margin-top: 15px; }
 
-/* --- BAS : INFOS ÉCLATÉES --- */
-footer {
-    display: flex; flex-direction: column; gap: 40px;
-    pointer-events: auto;
-}
+/* --- BAS --- */
+footer { display: flex; flex-direction: column; gap: 40px; pointer-events: auto; }
 
 #detailed-info {
     display: flex;
@@ -95,7 +82,7 @@ footer {
     border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px;
 }
 
-.controls { display: flex; gap: 50px; }
+.controls { display: flex; gap: 30px; }
 .controls button {
     background: transparent; border: none; color: white;
     font-size: 10px; opacity: 0.5; cursor: pointer; transition: 0.3s;
@@ -103,11 +90,11 @@ footer {
 }
 .controls button:hover { opacity: 1; border-bottom: 1px solid white; }
 
-/* --- FENÊTRE POÉTIQUE (MODAL) --- */
+/* --- FENÊTRE POÉTIQUE RESPONSIVE (MODAL) --- */
 #poem-box {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(35px);
     -webkit-backdrop-filter: blur(35px);
     display: none;
@@ -117,43 +104,52 @@ footer {
     z-index: 100;
     pointer-events: auto;
     cursor: pointer;
-    padding: 40px; /* Réduit un peu le padding global */
+    padding: 10vh 10vw; /* Padding basé sur la hauteur de l'écran */
 }
 
 #poem-text {
-    /* Taille par défaut pour DESKTOP */
-    font-size: 2.2rem; 
-    line-height: 1.4;
+    /* Utilise clamp pour limiter la taille : mini 0.9rem, idéal 1.8vw, maxi 2rem */
+    font-size: clamp(0.9rem, 1.8vw, 2rem); 
+    line-height: 1.6;
     font-weight: 300;
     text-align: center;
-    max-width: 1000px;
+    max-width: 800px;
     white-space: pre-line;
     margin: 0;
+    /* Empêche le texte de sortir si le poème est très long */
+    max-height: 70vh; 
+    overflow-y: auto;
 }
 
 .close-hint {
-    margin-top: 40px;
+    margin-top: 30px;
     font-size: 9px;
     opacity: 0.4;
     letter-spacing: 0.5em;
     text-transform: uppercase;
 }
 
-/* --- ADAPTATION MOBILE --- */
+/* --- AJUSTEMENTS SMARTPHONE --- */
 @media (max-width: 600px) {
-    #poem-box {
-        padding: 20px; /* Plus d'espace pour le texte sur les petits écrans */
-    }
+    #overlay { padding: 20px; }
+    
+    #poem-box { padding: 5vh 5vw; }
 
     #poem-text {
-        /* Taille adaptée pour MOBILE */
-        font-size: 1rem; 
-        line-height: 1.6; /* Plus d'espace entre les lignes pour la lisibilité */
-        max-width: 100%;
+        /* Plus petit sur mobile pour que Le Goffic tienne en entier */
+        font-size: 0.85rem; 
+        line-height: 1.5;
+        width: 100%;
     }
 
-    .close-hint {
-        margin-top: 20px;
-        font-size: 8px;
+    #detailed-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        text-align: center;
     }
+    
+    .info-left, .info-right { text-align: center; }
+    
+    .controls { gap: 15px; }
 }
