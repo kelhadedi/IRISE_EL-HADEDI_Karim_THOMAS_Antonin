@@ -1,44 +1,86 @@
 <!DOCTYPE html>
+
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Tregrom Meteo</title>
-    <link rel="stylesheet" href="style.css">
+
+<meta charset="UTF-8">
+
+<title>Tregrom Meteo</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
-    <div id="overlay">
-        <header>
-            <h1 id="desc-display">--</h1>
-            <div id="location">STATION MÉTÉO AVANCÉE</div>
-        </header>
 
-        <main>
-            <div id="poem-btn" onclick="afficherPoeme()">UN PEU DE POÉSIE</div>
-            <div id="temp-display">--°</div>
-            
-            <div id="poem-box" onclick="fermerPoeme()">
-                <p id="poem-text"></p>
-                <span style="font-size: 10px; opacity: 0.5;">CLIQUEZ POUR FERMER</span>
-            </div>
-        </main>
+<div id="overlay">
 
-        <footer>
-            <div class="controls">
-                <button onclick="chargerDataSpecifique('2026-01-01', '02:00')">HIVER</button>
-                <button onclick="chargerDataSpecifique('2026-01-20', '14:00')">ORAGE</button>
-                <button onclick="chargerDataSpecifique('2025-08-25', '18:00')">ÉTÉ</button>
-            </div>
-        </footer>
-    </div>
+<header>
 
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-            }
-        }
-    </script>
-    <script type="module" src="script.js"></script>
+<h1 id="desc-display">--</h1>
+
+<div id="location">STATION MÉTÉO AVANCÉE</div>
+
+</header>
+
+
+
+<main>
+
+<div id="poem-btn" onclick="afficherPoeme()">UN PEU DE POÉSIE</div>
+
+<div id="temp-display">--°</div>
+
+
+<div id="poem-box" onclick="fermerPoeme()">
+
+<p id="poem-text"></p>
+
+<span style="font-size: 10px; opacity: 0.5;">CLIQUEZ POUR FERMER</span>
+
+</div>
+
+</main>
+
+
+
+<footer>
+
+<div class="controls">
+
+<button onclick="chargerDataSpecifique('2026-01-01', '02:00')">HIVER</button>
+
+<button onclick="chargerDataSpecifique('2026-01-20', '14:00')">ORAGE</button>
+
+<button onclick="chargerDataSpecifique('2025-08-25', '18:00')">ÉTÉ</button>
+
+</div>
+
+</footer>
+
+</div>
+
+
+
+<script type="importmap">
+
+{
+
+"imports": {
+
+"three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+
+"three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+
+}
+
+}
+
+</script>
+
+<script type="module" src="script.js"></script>
+
 </body>
+
 </html>
