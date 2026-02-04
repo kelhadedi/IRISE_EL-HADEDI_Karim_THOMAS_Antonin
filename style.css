@@ -137,7 +137,7 @@ footer { display: flex; flex-direction: column; gap: 40px; pointer-events: auto;
 
     #poem-text {
         /* Plus petit sur mobile pour que Le Goffic tienne en entier */
-        font-size: 0.85rem; 
+        font-size: 0.5rem; 
         line-height: 1.5;
         width: 100%;
     }
