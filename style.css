@@ -108,16 +108,29 @@ footer { display: flex; flex-direction: column; gap: 40px; pointer-events: auto;
 }
 
 #poem-text {
-    /* DESKTOP : Taille confortable */
-    font-size: 2rem; 
-    line-height: 1.4;
+    /* Paramètres : (Taille minimum, Taille idéale selon l'écran, Taille maximum) */
+    font-size: clamp(1.1rem, 4vh, 1.8rem); 
+    
+    line-height: 1.5;
     font-weight: 300;
     text-align: center;
-    max-width: 900px;
-    width: 90%; /* S'adapte à la largeur */
-    white-space: pre-line; /* Garde les retours à la ligne du poème */
+    max-width: 850px;
+    width: 90%;
+    white-space: pre-line;
     margin: 0;
-    overflow-wrap: break-word; /* Force la coupure des mots si nécessaire */
+    overflow-wrap: break-word;
+    
+    /* Empêche le texte de coller en haut/bas sur les petits téléphones */
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* Optimisation spécifique pour les smartphones très étroits */
+@media (max-width: 400px) {
+    #poem-text {
+        font-size: 1rem; /* Un tout petit peu plus grand que tout à l'heure pour la lisibilité */
+        line-height: 1.4;
+    }
 }
 
 .close-hint {
