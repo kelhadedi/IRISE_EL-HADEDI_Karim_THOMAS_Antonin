@@ -9,11 +9,11 @@ let currentCondition = "";
 
 // POÉSIES CLASSIQUES INTÉGRALES
 const poemes = {
-    nuageux: "Le ciel est plus gris qu'une feuille morte\nQui traîna longtemps dans la boue et l'eau ;\nLes rameaux menus que le vent emporte\nSont les os du pin et ceux du bouleau.\n\nOn entend couler ainsi que des larmes\nQuelques gouttes d'eau dans les rochers noirs ;\nCet instant glacé a pour moi des charmes.\nIl ne change rien à mes désespoirs.\n\nRien ne me rebute et rien ne m'attire ;\nL'hiver me sourit dans ses jours neigeants,\nEt quand il viendra, je laisserai rire\nLe jeune printemps.\n\n— Cécile Sauvage",
+    hiver: "La mer est grise et le ciel est de plomb,\nL'hiver a mis son givre aux fentes des rochers ;\nOn n'entend plus, le long du morne vallon,\nQue le cri des oiseaux qui cherchent leurs clochers.\n\nTout est de glace, et le vent qui s'élève\nApporte avec lui le sel des embruns ;\nLa terre s'endort dans un pénible rêve\nOù flottent des souvenirs défunts.\n\n— Charles Le Goffic",
 
-    pluie: "Il pleure dans mon cœur\nComme il pleut sur la ville ;\nQuelle est cette langueur\nQui pénètre mon cœur ?\n\nÔ bruit doux de la pluie\nPar terre et sur les toits !\nPour un cœur qui s'ennuie,\nÔ le chant de la pluie !\n\nIl pleure sans raison\nDans ce cœur qui s'écœure.\nQuoi ! nulle trahison ?...\nCe deuil est sans raison.\n\nC'est bien la pire peine\nDe ne savoir pourquoi\nSans amour et sans haine\nMon cœur a tant de peine !\n\n— Paul Verlaine",
+    pluie: "Il pleure dans mon cœur\nComme il pleut sur la ville ;\nQuelle est cette langueur\nQui pénètre mon cœur ?\n\nÔ bruit doux de la pluie\nPar terre et sur les toits !\nPour un cœur qui s'ennuie,\nÔ le chant de la pluie !\n\n— Paul Verlaine",
 
-    clair: "Par les soirs bleus d'été, j'irai dans les sentiers,\nPicoté par les blés, fouler l'herbe menue :\nRêveur, j'en sentirai la fraîcheur à mes pieds.\nJe laisserai le vent baigner ma tête nue.\n\nJe ne parlerai pas, je ne penserai rien :\nMais l'amour infini me montera dans l'âme,\nEt j'irai loin, bien loin, comme un bohémien,\nPar la Nature, — heureux comme avec une femme.\n\n— Arthur Rimbaud"
+    clair: "Par les soirs bleus d'été, j'irai dans les sentiers,\nPicoté par les blés, fouler l'herbe menue :\nRêveur, j'en sentirai la fraîcheur à mes pieds.\nJe laisserai le vent baigner ma tête nue.\n\n— Arthur Rimbaud"
 };
 
 init();
@@ -88,9 +88,21 @@ function mettreAJourInterface(temp, condition, date) {
 
 window.afficherPoeme = function() {
     let type = "clair";
-    if (isRaining) type = "pluie";
-    else if (currentCondition.includes("nuage") || currentCondition.includes("couvert")) type = "nuageux";
     
+    // On récupère la température affichée pour décider
+    let temp = parseFloat(document.getElementById('temp-display').innerText);
+
+    if (temp < 5) { 
+        // Si il fait très froid (Hiver), on met Le Goffic
+        type = "hiver";
+    } else if (isRaining) {
+        // Si il pleut ou orage (mais pas glacial), on met Verlaine
+        type = "pluie";
+    } else if (currentCondition.includes("nuage") || currentCondition.includes("couvert")) {
+        // Si c'est juste nuageux et doux
+        type = "hiver"; 
+    }
+
     document.getElementById('poem-text').innerText = poemes[type];
     document.getElementById('poem-box').style.display = "flex";
 };
